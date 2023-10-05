@@ -50,9 +50,10 @@ app.post('/measurement', function (req, res) {
 });
 
 app.post('/device', function (req, res) {
-	console.log("device id    : " + req.body.id + " name        : " + req.body.n + " key         : " + req.body.k );
+	console.log("device id    : " + req.body.id + " name        : " + req.body.n + " key         : " + req.body.k 
+                + " time_post   : " + Date());
 
-    db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.n+"', '"+req.body.k+"')");
+    db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.n+"', '"+req.body.k+ "', '"+Date() +"')");
 	res.send("received new device");
 });
 
@@ -61,14 +62,14 @@ app.get('/web/device', function (req, res) {
 	var devices = db.public.many("SELECT * FROM devices").map( function(device) {
 		console.log(device);
 		return '<tr><td><a href=/web/device/'+ device.device_id +'>' + device.device_id + "</a>" +
-			       "</td><td>"+ device.name+"</td><td>"+ device.key+"</td></tr>";
+			       "</td><td>"+ device.name+"</td><td>"+ device.key+"</td><td>"+ device.time_post +"</td></tr>";
 	   }
 	);
 	res.send("<html>"+
 		     "<head><title>Sensores</title></head>" +
 		     "<body>" +
 		        "<table border=\"1\">" +
-		           "<tr><th>id</th><th>name</th><th>key</th></tr>" +
+		           "<tr><th>id</th><th>name</th><th>key</th><th>time post</th><</tr>" +
 		           devices +
 		        "</table>" +
 		     "</body>" +
@@ -81,14 +82,15 @@ app.get('/web/device/:id', function (req,res) {
                      "<body>" +
 		        "<h1>{{ name }}</h1>"+
 		        "id  : {{ id }}<br/>" +
-		        "Key : {{ key }}" +
+		        "Key : {{ key }}<br/>" +
+                "time post : {{ time_post }}" +
                      "</body>" +
                 "</html>";
 
 
     var device = db.public.many("SELECT * FROM devices WHERE device_id = '"+req.params.id+"'");
     console.log(device);
-    res.send(render(template,{id:device[0].device_id, key: device[0].key, name:device[0].name}));
+    res.send(render(template,{id:device[0].device_id, key: device[0].key, name:device[0].name, time_post:device[0].time_post}));
 });	
 
 
@@ -124,9 +126,9 @@ startDatabase().then(async() => {
     await insertMeasurement({id:'01', t:'17', h:'77'});
     console.log("mongo measurement database Up");
 
-    db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR)");
-    db.public.none("INSERT INTO devices VALUES ('00', 'Fake Device 00', '123456')");
-    db.public.none("INSERT INTO devices VALUES ('01', 'Fake Device 01', '234567')");
+    db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR, time_post VARCHAR)");
+    db.public.none("INSERT INTO devices VALUES ('00', 'Fake Device 00', '123456', '"+Date()+"')");
+    db.public.none("INSERT INTO devices VALUES ('01', 'Fake Device 01', '234567', '"+Date()+"')");
     db.public.none("CREATE TABLE users (user_id VARCHAR, name VARCHAR, key VARCHAR)");
     db.public.none("INSERT INTO users VALUES ('1','Ana','admin123')");
     db.public.none("INSERT INTO users VALUES ('2','Beto','user123')");
