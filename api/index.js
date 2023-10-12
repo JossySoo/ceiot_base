@@ -99,6 +99,25 @@ app.get('/web/measurement', async function (req, res) {
 	res.send(html_measurement);
 });
 
+app.get('/web/measurement/:id', async function (req,res) {
+    console.log("Consulta web de medición por id");
+    const measurements = await getMeasurements();
+    const measurement = measurements.find((m) => m.m_id === parseInt(req.params.id));
+    var template = "<html>"+
+                     "<head><title> Measurement #{{m_id}}</title></head>" +
+                     "<body>" +
+		        "<h1> Measurement #{{ m_id }}</h1>"+
+                "Device ID: {{ id }} <br/>" +
+		        "Temperature  : {{ t }}<br/>" +
+		        "Humidity : {{ h }}<br/>" +
+                "Time post : {{ ts }}" +
+                     "</body>" +
+                "</html>";
+
+    console.log(measurement);
+    res.send(render(template,{m_id:measurement.m_id, id: measurement.id, t:measurement.t, h:measurement.h, ts:measurement.ts}));
+});	
+
 app.get('/web/device/:id', function (req,res) {
     console.log("Consulta web de dispositivo por id");
     var template = "<html>"+
