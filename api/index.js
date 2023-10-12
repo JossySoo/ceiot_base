@@ -26,6 +26,7 @@ async function insertMeasurement(message) {
     message.ts = new Date()
     message.m_id = await database.collection(collectionName).countDocuments()+1
     const {insertedId} = await database.collection(collectionName).insertOne(message);
+    console.log("Se registra medición #"+message.m_id)
     return insertedId;
 }
 
@@ -44,7 +45,7 @@ app.use(express.static('spa/static'));
 const PORT = 8080;
 
 app.post('/measurement', function (req, res) {
--       console.log("device id    : " + req.body.id + " key         : " + req.body.key + " temperature : " + req.body.t + " humidity    : " + req.body.h
+-   console.log("device id    : " + req.body.id + " key         : " + req.body.key + " temperature : " + req.body.t + " humidity    : " + req.body.h
         + " timestamp    :"+ new Date());	
     const {insertedId} = insertMeasurement({id:req.body.id, t:req.body.t, h:req.body.h});
 	res.send("received measurement into " +  insertedId);
@@ -58,26 +59,48 @@ app.post('/device', function (req, res) {
 	res.send("received new device");
 });
 
-
 app.get('/web/device', function (req, res) {
+    console.log("Consulta web de los dispositivos: /web/device");
 	var devices = db.public.many("SELECT * FROM devices").map( function(device) {
-		console.log(device);
 		return '<tr><td><a href=/web/device/'+ device.device_id +'>' + device.device_id + "</a>" +
 			       "</td><td>"+ device.name+"</td><td>"+ device.key+"</td><td>"+ device.time_post +"</td></tr>";
 	   }
 	);
-	res.send("<html>"+
-		     "<head><title>Sensores</title></head>" +
+    var html_device="<html>"+
+                    "<head><title>Sensores</title></head>" +
+                    "<body><table border=\"1\">" +
+                    "<tr><th>id</th><th>name</th><th>key</th><th>time post</th></tr>";
+    devices.forEach((dev) => {
+        html_device += dev
+        });
+    html_device += "</table></body></html>";
+	res.send(html_device);
+});
+
+app.get('/web/measurement', async function (req, res) {
+    console.log("Consulta web de las mediciones: /web/measurement");
+    const measurements = await getMeasurements()
+	var measurements_list = measurements.map( function(measurement) {
+		return '<tr><td><a href=/web/device/'+ measurement.id +'>' + measurement.id + "</a>" +
+			       "</td><td><a href=/web/measurement/"+ measurement.m_id +">"+ measurement.m_id + "</a></td><td>" 
+                   + measurement.t+"</td><td>" + measurement.h+"</td><td>"+ measurement.ts +"</td></tr>";
+	   }
+	);
+    var html_measurement=
+             "<html>"+
+		     "<head><title>Mediciones</title></head>" +
 		     "<body>" +
 		        "<table border=\"1\">" +
-		           "<tr><th>id</th><th>name</th><th>key</th><th>time post</th><</tr>" +
-		           devices +
-		        "</table>" +
-		     "</body>" +
-		"</html>");
+		           "<tr><th>device_id</th><th>measurement_id</th><th>temperature</th><th>humidity</th><th>time post</th></tr>";
+    measurements_list.forEach((mes) => {
+        html_measurement += mes
+    });
+    html_measurement +="</table></body></html>"
+	res.send(html_measurement);
 });
 
 app.get('/web/device/:id', function (req,res) {
+    console.log("Consulta web de dispositivo por id");
     var template = "<html>"+
                      "<head><title>Sensor {{name}}</title></head>" +
                      "<body>" +
@@ -109,10 +132,12 @@ app.get('/term/device/:id', function (req, res) {
 });
 
 app.get('/measurement', async (req,res) => {
+    console.log("Se consulta lista de mediciones")
     res.send(await getMeasurements());
 });
 
 app.get('/device', function(req,res) {
+    console.log("Se consulta lista de dispositivos")
     res.send( db.public.many("SELECT * FROM devices") );
 });
 
@@ -121,11 +146,11 @@ startDatabase().then(async() => {
     const addAdminEndpoint = require("./admin.js");
     addAdminEndpoint(app, render);
 
+    console.log("mongo measurement database Up");
     await insertMeasurement({id:'00', t:'18', h:'78'});
     await insertMeasurement({id:'00', t:'19', h:'77'});
     await insertMeasurement({id:'00', t:'17', h:'77'});
     await insertMeasurement({id:'01', t:'17', h:'77'});
-    console.log("mongo measurement database Up");
 
     db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR, time_post VARCHAR)");
     db.public.none("INSERT INTO devices VALUES ('00', 'Fake Device 00', '123456', '"+Date()+"')");
@@ -139,5 +164,4 @@ startDatabase().then(async() => {
     app.listen(PORT, () => {
         console.log(`Listening at ${PORT}`);
     });
-    console.log(await database.collection(collectionName).countDocuments()+1)
 });
