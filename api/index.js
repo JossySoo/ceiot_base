@@ -24,6 +24,7 @@ async function getDatabase() {
 
 async function insertMeasurement(message) {
     message.ts = new Date()
+    message.m_id = await database.collection(collectionName).countDocuments()+1
     const {insertedId} = await database.collection(collectionName).insertOne(message);
     return insertedId;
 }
@@ -138,4 +139,5 @@ startDatabase().then(async() => {
     app.listen(PORT, () => {
         console.log(`Listening at ${PORT}`);
     });
+    console.log(await database.collection(collectionName).countDocuments()+1)
 });
