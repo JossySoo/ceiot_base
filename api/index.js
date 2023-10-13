@@ -92,8 +92,8 @@ app.get('/web/measurement', async function (req, res) {
 		     "<body>" +
 		        "<table border=\"1\">" +
 		           "<tr><th>device_id</th><th>measurement_id</th><th>temperature</th><th>humidity</th><th>time post</th></tr>";
-    measurements_list.forEach((mes) => {
-        html_measurement += mes
+    measurements_list.forEach((mesurement_row) => {
+        html_measurement += mesurement_row
     });
     html_measurement +="</table></body></html>"
 	res.send(html_measurement);
@@ -136,6 +136,29 @@ app.get('/web/device/:id', function (req,res) {
     res.send(render(template,{id:device[0].device_id, key: device[0].key, name:device[0].name, time_post:device[0].time_post}));
 });	
 
+app.get('/web/measurement/bydevice/:id', async function (req,res) {
+    console.log("Consulta web de medición por id");
+    const measurements = await getMeasurements();
+    const measurements_device = measurements.filter((m) => m.id === req.params.id);
+    var measurements_list = measurements_device.map( function(measurement) {
+		return '<tr><td><a href=/web/device/'+ measurement.id +'>' + measurement.id + "</a>" +
+			       "</td><td><a href=/web/measurement/"+ measurement.m_id +">"+ measurement.m_id + "</a></td><td>" 
+                   + measurement.t+"</td><td>" + measurement.h+"</td><td>"+ measurement.ts +"</td></tr>";
+	   }
+	);
+    var html_measurement=
+             "<html>"+
+		     "<head><title>Mediciones del dispositivo "+req.params.id+"</title></head>" +
+		     "<body>" +
+             "<h1> Mediciones del dispositivo "+req.params.id+"</h1>"+
+		        "<table border=\"1\">" +
+		           "<tr><th>device_id</th><th>measurement_id</th><th>temperature</th><th>humidity</th><th>time post</th></tr>";
+    measurements_list.forEach((mesurement_row) => {
+        html_measurement += mesurement_row
+    });
+    html_measurement +="</table></body></html>"
+	res.send(html_measurement);
+});	
 
 app.get('/term/device/:id', function (req, res) {
     var red = "\33[31m";
