@@ -198,6 +198,7 @@ startDatabase().then(async() => {
     db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR, time_post VARCHAR)");
     db.public.none("INSERT INTO devices VALUES ('00', 'Fake Device 00', '123456', '"+Date()+"')");
     db.public.none("INSERT INTO devices VALUES ('01', 'Fake Device 01', '234567', '"+Date()+"')");
+    db.public.none("INSERT INTO devices VALUES ('03', 'Sensor DHT11', '345678', '"+Date()+"')");
     db.public.none("CREATE TABLE users (user_id VARCHAR, name VARCHAR, key VARCHAR)");
     db.public.none("INSERT INTO users VALUES ('1','Ana','admin123')");
     db.public.none("INSERT INTO users VALUES ('2','Beto','user123')");
