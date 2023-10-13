@@ -68,7 +68,7 @@ app.get('/web/device', function (req, res) {
 	);
     var html_device="<html>"+
                     "<head><title>Sensores</title></head>" +
-                    "<body><table border=\"1\">" +
+                    "<body><h1> Lista de Sensores</h1><table border=\"1\">" +
                     "<tr><th>id</th><th>name</th><th>key</th><th>time post</th></tr>";
     devices.forEach((dev) => {
         html_device += dev
@@ -90,6 +90,7 @@ app.get('/web/measurement', async function (req, res) {
              "<html>"+
 		     "<head><title>Mediciones</title></head>" +
 		     "<body>" +
+             "<h1> Lista de Mediciones </h1>"+
 		        "<table border=\"1\">" +
 		           "<tr><th>device_id</th><th>measurement_id</th><th>temperature</th><th>humidity</th><th>time post</th></tr>";
     measurements_list.forEach((mesurement_row) => {
@@ -137,7 +138,7 @@ app.get('/web/device/:id', function (req,res) {
 });	
 
 app.get('/web/measurement/bydevice/:id', async function (req,res) {
-    console.log("Consulta web de medición por id");
+    console.log("Consulta web de medición por dispositivo");
     const measurements = await getMeasurements();
     const measurements_device = measurements.filter((m) => m.id === req.params.id);
     var measurements_list = measurements_device.map( function(measurement) {
