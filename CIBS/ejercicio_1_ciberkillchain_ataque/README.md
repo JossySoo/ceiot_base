@@ -2,11 +2,44 @@
 
 Crear un nuevo documento en esta carpeta con las siguientes secciones:
 
- * Alumno
- * Muy breve descripción del trabajo práctico con link si hay
- * Resolución
+ * Alumna: Josselyn Ordóñez
 
+## Descripción del trabajo práctico
+Debido a que no se tiene aún un trabajo práctico definido, se hará el ataque en base al trabajo práctico de la materia de Desarrollo de Aplicaciones IoT.
 
+### Capa de Percepción
+
+Mediante la utilización de un microcontrolador ESP32 y un sensor, se implementa:
+
+- Nodo se conectado vía Wi-Fi.
+- Reportes de mediciones de la variable a medir cada 30 seg.
+- Comunicación entre el nodo sensor y el servidor mediante TLS.
+- Implementación de canales de actuación remota.
+
+### Capa de Transporte
+Se pide utilizar protocolo MQTT con capa de seguridad TLS
+
+### Capa de Procesamiento, Persistencia y Visualización
+
+#### A. Base de Datos
+
+1. Podrá utilizarse tanto SQL como NO-SQL.
+
+#### B. API - NodeJs + Express
+
+1. Persistencia de telemetrías enviadas por el nodo sensor.
+2. Persistencia de los atributos de los nodos sensores registrados.
+3. Recuperación de datos o atributos de un nodo sensor determinado.
+
+#### C. Visualización (Interfaz de Usuario) - DAW/DAM o propio
+
+1. Visualización del ID del nodo y último valor reportado.
+2. Timestamp de la última telemetría almacenada.
+3. Visualización del estado de los canales de actuación remota (opcional).
+4. Visualización del estado del nodo sensor (opcional si se implementa e).
+5. Gráfica de serie temporal de temperatura y humedad (opcional - recomendado).
+
+![Arquitectura](infraestrutura_TP_IoT.png)
 
 ## Enunciado
 
