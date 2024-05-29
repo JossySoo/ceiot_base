@@ -65,18 +65,20 @@ Por tanto, el objetivo del ciberataque es infiltrarse en el sistema y tener la i
   
 * Exploit
   - Capturo la contraseña del Wifi (T1056: Input Capture)
+  - Explotar una vulnerabilidad en uno de los dispositivos de la red (por ejemplo, una computadora portátil o un dispositivo IoT) para instalar un malware (T1210 - Exploitation of Remote Services)
   - Intercepto las comunicaciones entre el cliente y servidor para obtener el certificado de autofirmado (T1557.002: Adversary-in-the-Middle: DNS Spoofing)
   
 * Installation  
   - Creo un nuevo certificado utilizando la misma información que el certificado legítimo (por ejemplo, el nombre del servidor, el nombre de la organización, etc.) (T1649 - Steal or Forge Authentication Certificates).
   - Intercepto la conexión TLS y presentando el certificado autofirmado falso (T1649 - Steal or Forge Authentication Certificates).
+  - Instalar un malware en el dispositivo comprometido para mantener acceso persistente (T1105 - Ingress Tool Transfer)
 
 * Command & Control
   - **Decido** suscribirme a los tópicos de MQTT para recibir la telemetría de temperatura (T1071.001 - Application Layer Protocol: Web Protocols)
+  - **Decido** configurar tareas programadas y backdoors de manera que parezcan tareas legítimas del sistema.(T1543.001 - Create or Modify System Process: Launch Agent ; T1053.005 - Scheduled Task/Job: Scheduled Task)
   
 * Actions on Objectives
   - Automatizar la extracción y uso de la información de temperatura para planificar robos (T1020 - Automated Exfiltration).
-
 
   
 
