@@ -58,10 +58,10 @@ Por tanto, el objetivo del ciberataque es infiltrarse en el sistema y tener la i
 
 * Weaponization
   - **Puedo** Convencer a los residentes de que proporcionen la contraseña de Wi-Fi con ingeniería social (T1598 - Phishing for Information)
-  - **Decido** crear un punto de acceso Wi-Fi falso con un nombre similar al de la red legítima (Evil Twin) y engañar a los usuarios para que se conecten a él y brinden la contraseña. (T1200 - Hardware Additions / T1056: Input Capture)
+  - **Decido** crear  un punto de acceso Wi-Fi falso con nombre similar al real para capturar credenciales (Evil Twin) utilizando hardware adicional y técnicas de captura de entrada (T1200 - Hardware Additions / T1056: Input Capture)
   
 * Delivery
-  - Instalo el punto de acceso falso (T1200 - Hardware Additions).
+  - Instalo el punto de acceso falso cerca de la residencia para maximizar la probabilidad de conexión por parte de las víctimas (T1200 - Hardware Additions).
   
 * Exploit
   - Capturo la contraseña del Wifi (T1056: Input Capture)
@@ -71,11 +71,11 @@ Por tanto, el objetivo del ciberataque es infiltrarse en el sistema y tener la i
 * Installation  
   - Creo un nuevo certificado utilizando la misma información que el certificado legítimo (por ejemplo, el nombre del servidor, el nombre de la organización, etc.) (T1649 - Steal or Forge Authentication Certificates).
   - Intercepto la conexión TLS y presentando el certificado autofirmado falso (T1649 - Steal or Forge Authentication Certificates).
-  - Instalar un malware en el dispositivo comprometido para mantener acceso persistente (T1105 - Ingress Tool Transfer)
+  - Instalo un malware en los dispositivos IoT para garantizar acceso persistente y recolectar datos de forma continua (T1105 - Ingress Tool Transfer)
 
 * Command & Control
-  - **Decido** suscribirme a los tópicos de MQTT para recibir la telemetría de temperatura (T1071.001 - Application Layer Protocol: Web Protocols)
-  - **Decido** configurar tareas programadas y backdoors de manera que parezcan tareas legítimas del sistema.(T1543.001 - Create or Modify System Process: Launch Agent ; T1053.005 - Scheduled Task/Job: Scheduled Task)
+  - **Decido** configurar la subscriçión a tópicos MQTT para monitorear de forma remota y continua la telemetría de temperatura (T1071.001 - Application Layer Protocol: Web Protocols)
+  - **Decido** implementar tareas programadas y backdoors de manera que parezcan tareas legítimas del sistema.(T1543.001 - Create or Modify System Process: Launch Agent ; T1053.005 - Scheduled Task/Job: Scheduled Task)
   
 * Actions on Objectives
   - Automatizar la extracción y uso de la información de temperatura para planificar robos (T1020 - Automated Exfiltration).
