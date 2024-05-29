@@ -52,30 +52,30 @@ Por tanto, el objetivo del ciberataque es infiltrarse en el sistema y tener la i
 ### Diseño del ciberataque
 
 * Reconnaissance
-  - Busco a la victima en Linkedin y noto que es alumna de la especialidad de CEIoT en la UBA. Además, tiene un enlace a su Github.
-  - Reviso los repositorios en Github y veo un repositorio público de un sistema IoT de Temperatura y humedad.
-  - Analizo el código para identificar vulnerabilidades y veo que el sistema usa certificadosautofirmados. Además, se usa un ESP32 con acceso a wifi.
-  - Averiguo el IP del domicilio a atacar.
+  - Busco los nombres de las personas que viven en la cada y los invetigo en Internet. Veo una de las víctimas en Linkedin y noto que es alumna de la especialidad de CEIoT en la UBA. Además, tiene un enlace a su Github (T1589 - Gather Victim Identity Information)
+  - Reviso los repositorios en Github y veo un repositorio público de un sistema IoT de Temperatura y humedad que puede estar instalado en su casa. Analizo el código para identificar vulnerabilidades y veo que el sistema usa certificados autofirmados. Además, se usa un ESP32 con acceso a wifi (T1595.002 - Active Scanning: Vulnerability Scanning).
+  - Averiguo el IP del domicilio a atacar (T1590.001 - Gather Victim Network Information: IP Addresses).
 
 * Weaponization
-  - **Puedo** Convencer a los residentes de que proporcionen la contraseña de Wi-Fi con ingeniería social.
-  - **Decido** crear un punto de acceso Wi-Fi falso con un nombre similar al de la red legítima (Evil Twin) y engañar a los usuarios para que se conecten a él.
+  - **Puedo** Convencer a los residentes de que proporcionen la contraseña de Wi-Fi con ingeniería social (T1598 - Phishing for Information)
+  - **Decido** crear un punto de acceso Wi-Fi falso con un nombre similar al de la red legítima (Evil Twin) y engañar a los usuarios para que se conecten a él y brinden la contraseña. (T1200 - Hardware Additions / T1056: Input Capture)
   
 * Delivery
-  - Instalo el punto de acceso falso.
+  - Instalo el punto de acceso falso (T1200 - Hardware Additions).
   
 * Exploit
-  - Capturo la contraseña del Wifi e intercepto las comunicaciones entre el cliente y servidor para obtener el certificado.
+  - Capturo la contraseña del Wifi (T1056: Input Capture)
+  - Intercepto las comunicaciones entre el cliente y servidor para obtener el certificado de autofirmado (T1557.002: Adversary-in-the-Middle: DNS Spoofing)
   
 * Installation  
-  - Creo un nuevo certificado utilizando la misma información que el certificado legítimo (por ejemplo, el nombre del servidor, el nombre de la organización, etc.).
-  - Realizo un ataque man-in-the-niddle (MITM), interceptando la conexión TLS y presentando el certificado autofirmado falso.
+  - Creo un nuevo certificado utilizando la misma información que el certificado legítimo (por ejemplo, el nombre del servidor, el nombre de la organización, etc.) (T1649 - Steal or Forge Authentication Certificates).
+  - Intercepto la conexión TLS y presentando el certificado autofirmado falso (T1649 - Steal or Forge Authentication Certificates).
 
 * Command & Control
-  - **Decido** suscribirme a la información de telemetría de temperatura.
+  - **Decido** suscribirme a los tópicos de MQTT para recibir la telemetría de temperatura (T1071.001 - Application Layer Protocol: Web Protocols)
   
 * Actions on Objectives
-  - La banda de ladrones usa la información de temperatura para robar la cada cuando no hay nadie presente.
+  - Automatizar la extracción y uso de la información de temperatura para planificar robos (T1020 - Automated Exfiltration).
 
 
   
