@@ -2,7 +2,7 @@
 
  * Alumna: Josselyn Ordóñez
 
-## Descripción del trabajo práctico
+## Sistema Víctima
 Debido a que no se tiene aún un trabajo práctico definido, se hará el ataque en base al trabajo práctico de la materia de Desarrollo de Aplicaciones IoT.
 
 ### Capa de Percepción
@@ -52,30 +52,30 @@ Por tanto, el objetivo del ciberataque es infiltrarse en el sistema y tener la i
 ### Diseño del ciberataque
 
 * Reconnaissance
-  - Imagen satelital identifica una pista de aterrizaje.
-  - Espías dicen que por el puerto entra el combustible.
-  - Espías locales dicen que la playa cercana no tiene buena vigilancia.
+  - Busco a la victima en Linkedin y noto que es alumna de la especialidad de CEIoT en la UBA. Además, tiene un enlace a su Github.
+  - Reviso los repositorios en Github y veo un repositorio público de un sistema IoT de Temperatura y humedad.
+  - Analizo el código para identificar vulnerabilidades y veo que el sistema usa certificadosautofirmados. Además, se usa un ESP32 con acceso a wifi.
+  - Averiguo el IP del domicilio a atacar.
 
 * Weaponization
-  - **Puedo** preparar un bombardeo.
-  - **Decido** preparar un equipo de comandos de sabotage.
+  - **Puedo** Convencer a los residentes de que proporcionen la contraseña de Wi-Fi con ingeniería social.
+  - **Decido** crear un punto de acceso Wi-Fi falso con un nombre similar al de la red legítima (Evil Twin) y engañar a los usuarios para que se conecten a él.
   
 * Delivery
-  - Envío al equipo de sabotage a la playa cercana en submarino.
+  - Instalo el punto de acceso falso.
   
 * Exploit
-  - El equipo logra desembarcar sin incidentes en la playa.
+  - Capturo la contraseña del Wifi e intercepto las comunicaciones entre el cliente y servidor para obtener el certificado.
   
 * Installation  
-  - El equipo se hace pasar por una compañia de circo como camuflaje.
+  - Creo un nuevo certificado utilizando la misma información que el certificado legítimo (por ejemplo, el nombre del servidor, el nombre de la organización, etc.).
+  - Realizo un ataque man-in-the-niddle (MITM), interceptando la conexión TLS y presentando el certificado autofirmado falso.
 
 * Command & Control
-  - **Puedo** utilizar palomas mensajeras.
-  - **Decido** utilizar Super High TeraHertz Radio que el adversario no puede detectar.
+  - **Decido** suscribirme a la información de telemetría de temperatura.
   
 * Actions on Objectives
-  - El equipo de comandos provoca daños menores en las cañerías.
-  - El equipo de comandos coloca minas en el puerto dejando un camino para el desembarco.
+  - La banda de ladrones usa la información de temperatura para robar la cada cuando no hay nadie presente.
 
 
   
