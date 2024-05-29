@@ -12,7 +12,6 @@ Mediante la utilización de un microcontrolador ESP32 y un sensor DHT11, se impl
 - Nodo conectado vía Wi-Fi.
 - Reportes de mediciones de la variable a medir cada 30 seg.
 - Comunicación entre el nodo sensor y el servidor mediante TLS.
-- Implementación de canales de actuación remota.
 
 ### Capa de Transporte
 Se utiliza el protocolo MQTT con capa de seguridad TLS
@@ -52,33 +51,30 @@ Por tanto, el objetivo del ciberataque es infiltrarse en el sistema y tener la i
 ### Diseño del ciberataque
 
 * Reconnaissance
-  - Busco los nombres de las personas que viven en la cada y los invetigo en Internet. Veo una de las víctimas en Linkedin y noto que es alumna de la especialidad de CEIoT en la UBA. Además, tiene un enlace a su Github (T1589 - Gather Victim Identity Information)
+  - Busco los nombres de las personas que viven en la casa y los invetigo en Internet. Veo una de las víctimas en Linkedin y noto que es alumna de la especialidad de CEIoT en la UBA. Además, tiene un enlace a su Github (T1589 - Gather Victim Identity Information)
   - Reviso los repositorios en Github y veo un repositorio público de un sistema IoT de Temperatura y humedad que puede estar instalado en su casa. Analizo el código para identificar vulnerabilidades y veo que el sistema usa certificados autofirmados. Además, se usa un ESP32 con acceso a wifi (T1595.002 - Active Scanning: Vulnerability Scanning).
-  - Averiguo el IP del domicilio a atacar (T1590.001 - Gather Victim Network Information: IP Addresses).
 
 * Weaponization
   - **Puedo** Convencer a los residentes de que proporcionen la contraseña de Wi-Fi con ingeniería social (T1598 - Phishing for Information)
-  - **Decido** crear  un punto de acceso Wi-Fi falso con nombre similar al real para capturar credenciales (Evil Twin) utilizando hardware adicional y técnicas de captura de entrada (T1200 - Hardware Additions / T1056: Input Capture)
+  - **Decido** crear un punto de acceso Wi-Fi falso con un nombre similar al de la red legítima (Evil Twin) y engañar a los usuarios para que se conecten a él y brinden la contraseña (T1200 - Hardware Additions / T1056: Input Capture).
+  - **Decido** preparar un dispositivo Raspeberry Pi que se conecte a internet para que envíe los datos a capturar a mi base de datos (T1200 - Hardware Additions).
   
 * Delivery
-  - Instalo el punto de acceso falso cerca de la residencia para maximizar la probabilidad de conexión por parte de las víctimas (T1200 - Hardware Additions).
+  - Instalo el punto de acceso falso cerca de la residencia para maximizar la probabilidad de conexión por parte de las víctimas y dejo instalado el Raspberry Pi (T1200 - Hardware Additions).
   
 * Exploit
   - Capturo la contraseña del Wifi (T1056: Input Capture)
-  - Explotar una vulnerabilidad en uno de los dispositivos de la red (por ejemplo, una computadora portátil o un dispositivo IoT) para instalar un malware (T1210 - Exploitation of Remote Services)
   - Intercepto las comunicaciones entre el cliente y servidor para obtener el certificado de autofirmado (T1557.002: Adversary-in-the-Middle: DNS Spoofing)
   
 * Installation  
   - Creo un nuevo certificado utilizando la misma información que el certificado legítimo (por ejemplo, el nombre del servidor, el nombre de la organización, etc.) (T1649 - Steal or Forge Authentication Certificates).
-  - Intercepto la conexión TLS y presentando el certificado autofirmado falso (T1649 - Steal or Forge Authentication Certificates).
-  - Instalo un malware en los dispositivos IoT para garantizar acceso persistente y recolectar datos de forma continua (T1105 - Ingress Tool Transfer)
+  - Intercepto la conexión TLS y presento el certificado autofirmado falso (T1649 - Steal or Forge Authentication Certificates).
 
 * Command & Control
-  - **Decido** configurar la subscriçión a tópicos MQTT para monitorear de forma remota y continua la telemetría de temperatura (T1071.001 - Application Layer Protocol: Web Protocols)
-  - **Decido** implementar tareas programadas y backdoors de manera que parezcan tareas legítimas del sistema.(T1543.001 - Create or Modify System Process: Launch Agent ; T1053.005 - Scheduled Task/Job: Scheduled Task)
+  - **Decido** subscribirme a tópicos MQTT para enviar la telemetría de temperatura a mi Rasberry Pi, que a su vez la envía por internet hacia mi base de datos (T1071.001 - Application Layer Protocol: Web Protocols)
   
 * Actions on Objectives
-  - Automatizar la extracción y uso de la información de temperatura para planificar robos (T1020 - Automated Exfiltration).
+  - Dejo automatizada la extracción y uso de la información de temperatura para planificar robos (T1020 - Automated Exfiltration).
 
   
 
