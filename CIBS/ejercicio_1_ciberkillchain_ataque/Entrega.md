@@ -51,8 +51,8 @@ Por tanto, el objetivo del ciberataque es infiltrarse en el sistema y tener la i
 ### Diseño del ciberataque
 
 * Reconnaissance
-  - Busco los nombres de las personas que viven en la casa y los invetigo en Internet. Veo una de las víctimas en Linkedin y noto que es alumna de la especialidad de CEIoT en la UBA. Además, tiene un enlace a su Github (T1589 - Gather Victim Identity Information)
-  - Reviso los repositorios en Github y veo un repositorio público de un sistema IoT de Temperatura y humedad que puede estar instalado en su casa. Analizo el código para identificar vulnerabilidades y veo que el sistema usa certificados autofirmados. Además, se usa un ESP32 con acceso a wifi (T1595.002 - Active Scanning: Vulnerability Scanning).
+  - Busco los nombres de las personas que viven en la casa y los investigo en Internet. Veo una de las víctimas en Linkedin y noto que es alumna de la especialidad de CEIoT en la UBA. Además, tiene un enlace a su Github (T1589 - Gather Victim Identity Information)
+  - Reviso los repositorios en Github y veo un repositorio público de un sistema IoT de temperatura y humedad que puede estar instalado en su casa. Analizo el código para identificar vulnerabilidades y veo que el sistema usa certificados autofirmados (T1595.002 - Active Scanning: Vulnerability Scanning).
 
 * Weaponization
   - **Puedo** Convencer a los residentes de que proporcionen la contraseña de Wi-Fi con ingeniería social (T1598 - Phishing for Information)
@@ -67,7 +67,7 @@ Por tanto, el objetivo del ciberataque es infiltrarse en el sistema y tener la i
   - Intercepto las comunicaciones entre el cliente y servidor para obtener el certificado de autofirmado (T1557.002: Adversary-in-the-Middle: DNS Spoofing)
   
 * Installation  
-  - Creo un nuevo certificado utilizando la misma información que el certificado legítimo (por ejemplo, el nombre del servidor, el nombre de la organización, etc.) (T1649 - Steal or Forge Authentication Certificates).
+  - Creo un nuevo certificado utilizando la misma información que el legítimo (por ejemplo, el nombre del servidor, el nombre de la organización, etc.) (T1649 - Steal or Forge Authentication Certificates).
   - Intercepto la conexión TLS y presento el certificado autofirmado falso (T1649 - Steal or Forge Authentication Certificates).
 
 * Command & Control
