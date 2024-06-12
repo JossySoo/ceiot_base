@@ -4,7 +4,7 @@ Hacer una copia de este documento para utilizar com plantilla para el ejercicio
 
 ## Alumno
 
-(completar)
+Josselyn Ordóñez
 
 ## Enunciado
 
